@@ -11,6 +11,7 @@ import (
 
 	"github.com/knadh/dns.toys/internal/geo"
 	"github.com/knadh/dns.toys/internal/services/cidr"
+	"github.com/knadh/dns.toys/internal/services/dictionary"
 	"github.com/knadh/dns.toys/internal/services/fx"
 	"github.com/knadh/dns.toys/internal/services/num2words"
 	"github.com/knadh/dns.toys/internal/services/timezones"
@@ -233,6 +234,15 @@ func main() {
 		h.register("cidr", n, mux)
 
 		help = append(help, []string{"convert cidr to ip range.", "dig 10.100.0.0/24 @%s"})
+	}
+
+	// Dictionary
+
+	if ko.Bool("dictionary.enabled") {
+		n := dictionary.New()
+		h.register("dictionary", n, mux)
+
+		help = append(help, []string{"find word meaning.", "dig hello.dictionary @%s"})
 	}
 
 	// Prepare the static help response for the `help` query.
