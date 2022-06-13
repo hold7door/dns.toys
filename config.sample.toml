@@ -58,3 +58,9 @@ enabled = true
 useragent = "github.com/knadh/dns.toys"
 snapshot_enabled = true
 snapshot_file = "dictionary.snapshot"
+
+[pi]
+enabled = true
+
+[base]
+enabled = true

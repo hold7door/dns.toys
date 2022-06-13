@@ -41,8 +41,9 @@
 		<code class="block">
 			<p>dig mumbai.time @dns.toys</p>
 			<p>dig newyork.time @dns.toys</p>
+			<p>dig paris/fr.time @dns.toys</p>
 		</code>
-		<p>Pass city names without spaces suffixed with <code>.time</code></p>
+		<p>Pass city names without spaces suffixed with <code>.time</code>. Pass two letter country codes optionally.</p>
 	</section>
 
 	<section class="box">
@@ -50,9 +51,11 @@
 		<code class="block">
 			<p>dig mumbai.weather @dns.toys</p>
 			<p>dig newyork.weather @dns.toys</p>
+			<p>dig amsterdam/nl.weather @dns.toys</p>
 		</code>
 		<p>
 			Pass city names without spaces suffixed with <code>.weather</code>.
+			Pass two letter country codes optionally.
 			This service is powered by <a href="https://www.yr.no/en">yr.no</a>
 		</p>
 	</section>
@@ -103,6 +106,15 @@
 	</section>
 
 	<section class="box">
+		<h2>Number base conversion</h2>
+		<code class="block">
+			<p>dig 100dec-hex.base @dns.toys</p>
+			<p>dig 755oct-bin.base @dns.toys</p>
+		</code>
+		<p>Converts a number from one base to another. Supported bases are hex, dec, oct and bin.</p>
+	</section>
+
+	<section class="box">
 		<h2>Word Definition</h2>
 		<code class="block">
 			<p>dig fun.dictionary @dns.toys</p>
@@ -116,6 +128,16 @@
 			<p>dig help @dns.toys</p>
 		</code>
 		<p>Lists available services.</p>
+	</section>
+
+	<section class="box">
+		<h2>Pi</h2>
+		<code class="block">
+			<p>dig pi @dns.toys</p>
+			<p>dig pi -t txt @dns.toys</p>
+			<p>dig pi -t aaaa @dns.toys</p>
+		</code>
+		<p>Print digits of Pi. Yep.</p>
 	</section>
 
 	<section>

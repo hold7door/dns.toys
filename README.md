@@ -21,6 +21,10 @@ dig ip @dns.toys
 dig 987654321.words @dns.toys
 
 dig fun.dictionary @dns.toys
+
+dig pi @dns.toys
+
+dig 100dec-hex.base @dns.toys
 ```
 
 ## Running locally

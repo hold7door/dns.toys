@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/knadh/dns.toys/internal/geo"
+	"github.com/knadh/dns.toys/internal/services/base"
 	"github.com/knadh/dns.toys/internal/services/cidr"
 	"github.com/knadh/dns.toys/internal/services/dictionary"
 	"github.com/knadh/dns.toys/internal/services/fx"
@@ -32,6 +33,9 @@ var (
 	// Version of the build injected at build time.
 	buildString = "unknown"
 )
+
+// Not all platforms have syscall.SIGUNUSED so use Golang's default definition here
+const SIGUNUSED = syscall.Signal(0x1f)
 
 func initConfig() {
 	// Register --help handler.
@@ -69,7 +73,7 @@ func saveSnapshot(h *handlers) {
 		syscall.SIGHUP,
 		syscall.SIGQUIT,
 		syscall.SIGINT,
-		syscall.SIGUNUSED, // SIGUNUSED, can be used to avoid shutting down the app.
+		SIGUNUSED, // SIGUNUSED, can be used to avoid shutting down the app.
 	)
 
 	// On receiving an OS signal, iterate through services and
@@ -100,7 +104,7 @@ func saveSnapshot(h *handlers) {
 				}
 			}
 
-			if i != syscall.SIGUNUSED {
+			if i != SIGUNUSED {
 				os.Exit(0)
 			}
 		}
@@ -206,7 +210,7 @@ func main() {
 
 		h.register("weather", w, mux)
 
-		help = append(help, []string{"get weather forestcast for a city.", "dig berlin.weather @%s"})
+		help = append(help, []string{"get weather forecast for a city.", "dig berlin.weather @%s"})
 	}
 
 	// Units.
@@ -233,7 +237,22 @@ func main() {
 		n := cidr.New()
 		h.register("cidr", n, mux)
 
-		help = append(help, []string{"convert cidr to ip range.", "dig 10.100.0.0/24 @%s"})
+		help = append(help, []string{"convert cidr to ip range.", "dig 10.100.0.0/24.cidr @%s"})
+	}
+
+	// PI.
+	if ko.Bool("pi.enabled") {
+		mux.HandleFunc("pi.", h.handlePi)
+
+		help = append(help, []string{"return pi as TXT or A or AAAA record.", "dig pi @%s"})
+	}
+
+	// Base
+	if ko.Bool("base.enabled") {
+		n := base.New()
+		h.register("base", n, mux)
+
+		help = append(help, []string{"convert numbers from one base to another", "dig 100dec-hex.base @%s"})
 	}
 
 	// Dictionary
