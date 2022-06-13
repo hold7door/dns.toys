@@ -51,3 +51,10 @@ enabled = true
 
 [cidr]
 enabled = true
+
+
+[dictionary]
+enabled = true
+useragent = "github.com/knadh/dns.toys"
+snapshot_enabled = true
+snapshot_file = "dictionary.snapshot"

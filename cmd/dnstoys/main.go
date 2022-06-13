@@ -237,12 +237,20 @@ func main() {
 	}
 
 	// Dictionary
-
 	if ko.Bool("dictionary.enabled") {
-		n := dictionary.New()
+		n := dictionary.New(dictionary.Opt{
+			UserAgent: ko.MustString("server.domain"),
+		})
 		h.register("dictionary", n, mux)
 
-		help = append(help, []string{"find word meaning.", "dig hello.dictionary @%s"})
+		// Load snapshot?
+		if b := loadSnapshot("dictionary"); b != nil {
+			if err := n.Load(b); err != nil {
+				lo.Printf("error reading dictionary snapshot: %v", err)
+			}
+		}
+
+		help = append(help, []string{"search word definition.", "dig fun.dictionary @%s"})
 	}
 
 	// Prepare the static help response for the `help` query.
